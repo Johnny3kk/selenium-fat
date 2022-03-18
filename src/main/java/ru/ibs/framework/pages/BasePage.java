@@ -2,16 +2,24 @@ package ru.ibs.framework.pages;
 
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.ibs.framework.managers.DriverManager;
 
 public class BasePage {
 
-    protected static WebDriver driver;
-    protected static WebDriverWait wait;
+    protected DriverManager driverManager = DriverManager.getInstance();
+    protected WebDriverWait wait = new WebDriverWait(driverManager.getDriver(), 10, 1000);
+    protected Actions act = new Actions(driverManager.getDriver());
 
-    protected void waitUntilElementToBeClickable(WebElement element) {
-        wait.until(ExpectedConditions.elementToBeClickable(element));
+    public BasePage() {
+        PageFactory.initElements(driverManager.getDriver(), this);
+    }
+
+    protected WebElement waitUntilElementToBeClickable(WebElement element) {
+        return wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
     protected void waitUntilElementToBeVisible(By locator) {
@@ -23,7 +31,7 @@ public class BasePage {
     }
 
     protected void scrollToElementJs(WebElement element) {
-        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
+        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driverManager.getDriver();
         javascriptExecutor.executeScript("arguments[0].scrollIntoView(true);", element);
     }
 

@@ -11,10 +11,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class StartPage extends BasePage {
 
-  WebDriver driver;
-  WebDriverWait wait;
-  Actions act = new Actions(driver);
-
   @FindBy(xpath = "//a[@id= 'header-logo']")
   private WebElement logo;
 
@@ -25,7 +21,7 @@ public class StartPage extends BasePage {
     wait.until(ExpectedConditions.visibilityOf(logo));
     Assertions.assertEquals(
         "DNS – интернет магазин цифровой и бытовой техники по доступным ценам.",
-        driver.getTitle(),
+        driverManager.getDriver().getTitle(),
         "Нужная страница не загрузилась.");
   }
 

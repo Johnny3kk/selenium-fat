@@ -6,10 +6,9 @@ import ru.ibs.framework.pages.StartPage;
 
 public class BuySwitchScenarioTest extends BaseTests {
 
-  StartPage startPage = new StartPage();
-
   @Test
   public void testScenario() {
-
+pageManager.getStartPage().checkOpenPage();
+pageManager.getStartPage().searchByProductName("switch");
   }
 }
