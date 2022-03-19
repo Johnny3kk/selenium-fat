@@ -28,13 +28,13 @@ public class BaseTests {
     }
 
     @BeforeEach
-    void beforeEach() {
+    public void beforeEach() {
         driverManager.getDriver().get(propManager.getProperty(PropsConst.BASE_URL));
     }
 
-//    @AfterAll
-//    static void after() {
-//        InitManager.quitFramework();
-//    }
+    @AfterAll
+    public static void after() {
+        InitManager.quitFramework();
+    }
 
 }
