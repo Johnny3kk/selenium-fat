@@ -32,9 +32,9 @@ public class BaseTests {
         driverManager.getDriver().get(propManager.getProperty(PropsConst.BASE_URL));
     }
 
-    @AfterAll
-    static void after() {
-        InitManager.quitFramework();
-    }
+//    @AfterAll
+//    static void after() {
+//        InitManager.quitFramework();
+//    }
 
 }
