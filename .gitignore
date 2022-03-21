@@ -1,7 +1,10 @@
 # Folders ignore
 .idea
+.allure
+target
 
 # Files ignore
 *.iml
-# Project exclude paths
-/target/
+*.war
+*.jar
+*.log
