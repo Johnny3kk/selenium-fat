@@ -25,7 +25,9 @@
         <selenium-java.version>3.141.59</selenium-java.version>
         <junit.version>5.8.2</junit.version>
         <junit-runner.version>1.8.2</junit-runner.version>
-        <allure-junit5>2.13.6</allure-junit5>
+        <cucumber-java.version>5.7.0</cucumber-java.version>
+        <cucumber-junit.version>5.7.0</cucumber-junit.version>
+        <allure-cucumber5-jvm.version>2.14.0</allure-cucumber5-jvm.version>
         <aspectj.version>1.9.7</aspectj.version>
 
     </properties>
@@ -54,11 +56,25 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-junit5 -->
+        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber-java.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${cucumber-junit.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-cucumber5-jvm -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-junit5</artifactId>
-            <version>${allure-junit5}</version>
+            <artifactId>allure-cucumber5-jvm</artifactId>
+            <version>${allure-cucumber5-jvm.version}</version>
         </dependency>
 
     </dependencies>
@@ -94,12 +110,6 @@
                     <systemPropertyVariables>
                         <allure.results.directory>${project.build.directory}/reports/allure-results</allure.results.directory>
                     </systemPropertyVariables>
-                    <properties>
-                        <property>
-                            <name>listener</name>
-                            <value>ru.ibs.framework.utils.MyAllureListener</value>
-                        </property>
-                    </properties>
                 </configuration>
                 <dependencies>
                     <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
