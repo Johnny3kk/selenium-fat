@@ -14,6 +14,11 @@ public class MortgagePageStep {
                 pageManager.getMortgagePage().fillField((String) key, (String) value));
     }
 
+    @И("^Убрать опцию 'Страхование жизни'$")
+    public void disableInsuranceCheck() {
+        pageManager.getMortgagePage().disableInsuranceCheck();
+    }
+
     @И("^Проверить значения полей:$")
     public void checkFields(DataTable mapFieldsAndValue) {
         mapFieldsAndValue.asMap(String.class, String.class).forEach((key, value) ->

@@ -1,6 +1,7 @@
 package ru.ibs.framework.pages.blocks;
 
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -9,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.ibs.framework.managers.DriverManager;
 import ru.ibs.framework.managers.PageManager;
+import ru.ibs.framework.pages.BasePage;
 
 import java.util.List;
 
@@ -33,15 +35,18 @@ public class Header {
         for (WebElement menuItem : listBaseMenu) {
             if (menuItem.getText().trim().equalsIgnoreCase(nameBaseMenu)) {
                 wait.until(ExpectedConditions.elementToBeClickable(menuItem)).click();
+                return;
             }
         }
         Assertions.fail("Меню '" + nameBaseMenu + "' не было найдено на стартовой странице!");
     }
 
     public void selectSubMenu(String nameSubMenu) {
+        wait.until(ExpectedConditions.visibilityOf(driverManager.getDriver().findElement(By.xpath("//a[contains(text(), 'Оформить ипотеку')]"))));
         for (WebElement menuItem : listSubMenu) {
             if (menuItem.getText().equalsIgnoreCase(nameSubMenu)) {
                 wait.until(ExpectedConditions.elementToBeClickable(menuItem)).click();
+                return;
             }
         }
         Assertions.fail("Подменю '" + nameSubMenu + "' не было найдено на стартовой странице!");

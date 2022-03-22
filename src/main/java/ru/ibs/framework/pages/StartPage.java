@@ -9,6 +9,7 @@ public class StartPage extends BasePage {
   private WebElement cookieClose;
 
   public StartPage closeCookieDialog() {
+    waitUntilElementToBeVisible(cookieClose);
     waitUntilElementToBeClickable(cookieClose).click();
     return this;
   }

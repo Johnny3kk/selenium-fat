@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class MortgagePage extends BasePage {
 
-  @FindBy(xpath = "//h1[contains(@class, 'header')]")
+  @FindBy(xpath = "//div[contains(@class, 'lg-top_40')]//h1[contains(@class, 'header')]")
   private WebElement title;
 
   @FindBy(xpath = "//div[contains(@data-e2e-id, 'realty-cost')]//input")
@@ -37,6 +37,7 @@ public class MortgagePage extends BasePage {
   private WebElement requiredIncome;
 
   public MortgagePage checkOpenPage() {
+    waitUntilElementToBeVisible(title);
     Assertions.assertTrue(
         title.getText().contains("готовые квартиры"),
         "Заголовок отсутствует/не соответствует требуемому");
