@@ -6,10 +6,8 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-features = {"src/test/resources/scenario"},
-glue = {"ru.ibs.framework.steps"},
-        tags = {"@regress"},
-        plugin = {"io.qameta.allure.cucumber5jvm.AllureCucumber5Jvm"}
-)
-public class CucumberRunner {
-}
+    plugin = {"io.qameta.allure.cucumber5jvm.AllureCucumber5Jvm"},
+    glue = {"ru/ibs/framework/steps/"},
+    features = {"src/test/resources/scenario/"},
+    tags = {"@firstFail"})
+public class CucumberRunner {}

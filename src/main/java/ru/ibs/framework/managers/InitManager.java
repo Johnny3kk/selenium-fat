@@ -26,6 +26,7 @@ public class InitManager {
                 .pageLoadTimeout(
                         Integer.parseInt(propManager.getProperty(PropsConst.PAGE_LOAD_TIMEOUT)),
                         TimeUnit.SECONDS);
+        driverManager.getDriver().get(propManager.getProperty(PropsConst.BASE_URL));
     }
 
     public static void quitFramework() {
