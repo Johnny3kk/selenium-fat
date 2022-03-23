@@ -17,7 +17,7 @@ public class BasePage {
 
   protected DriverManager driverManager = DriverManager.getInstance();
   protected PageManager pageManager = PageManager.getInstance();
-  protected WebDriverWait wait = new WebDriverWait(driverManager.getDriver(), 15, 1000);
+  protected WebDriverWait wait = new WebDriverWait(driverManager.getDriver(), 13, 1000);
   protected Actions act = new Actions(driverManager.getDriver());
   private Header header = new Header();
 
@@ -25,11 +25,11 @@ public class BasePage {
     PageFactory.initElements(driverManager.getDriver(), this);
   }
 
-    public Header getHeader() {
-        return header;
-    }
+  public Header getHeader() {
+    return header;
+  }
 
-    protected WebElement waitUntilElementToBeClickable(WebElement element) {
+  protected WebElement waitUntilElementToBeClickable(WebElement element) {
     return wait.until(ExpectedConditions.elementToBeClickable(element));
   }
 
@@ -47,7 +47,7 @@ public class BasePage {
   }
 
   protected void fillInputField(WebElement element, String value) {
-    scrollToElementJs(element);
+        scrollToElementJs(element);
     waitUntilElementToBeVisible(element);
     waitUntilElementToBeClickable(element);
     element.click();
@@ -55,7 +55,8 @@ public class BasePage {
     element.sendKeys(Keys.DELETE);
     element.clear();
     element.sendKeys(value);
-    boolean checkFlag = wait.until(ExpectedConditions.attributeContains(element, "value", value));
-    Assertions.assertTrue(checkFlag, "Поле было заполнено неверно.");
+//    wait.until(ExpectedConditions.textToBePresentInElement(element, value));
+//    boolean checkFlag = wait.until(ExpectedConditions.attributeContains(element, "value", value));
+//    Assertions.assertTrue(checkFlag, "Поле было заполнено неверно.");
   }
 }

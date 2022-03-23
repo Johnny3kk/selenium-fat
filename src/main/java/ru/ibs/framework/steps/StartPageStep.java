@@ -9,7 +9,7 @@ public class StartPageStep {
 
   @И("^Закрыть сообщение cookies$")
   public void closeCookieDialog() {
-    pageManager.getStartPage().closeCookieDialog();
+    pageManager.getStartPage().checkOpenPage().closeCookieDialog();
   }
 
   @И("^Выбираем \"(.+)\" в главном меню$")

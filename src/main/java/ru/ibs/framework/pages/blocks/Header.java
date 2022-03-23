@@ -25,6 +25,9 @@ public class Header {
         PageFactory.initElements(driverManager.getDriver(), this);
     }
 
+    @FindBy(xpath = "//img[@class='header__logo-image']")
+    private WebElement sberlogo;
+
     @FindBy(xpath = "//li[contains(@class,'kitt-top-menu__item_first')]/a[@role or @aria-expanded]")
     private List<WebElement> listBaseMenu;
 
@@ -52,5 +55,8 @@ public class Header {
         Assertions.fail("Подменю '" + nameSubMenu + "' не было найдено на стартовой странице!");
     }
 
+    public WebElement getSberlogo() {
+        return sberlogo;
+    }
 
 }

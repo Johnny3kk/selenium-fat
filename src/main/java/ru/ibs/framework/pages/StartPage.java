@@ -8,6 +8,11 @@ public class StartPage extends BasePage {
   @FindBy(xpath = "//button[contains(@class, 'cookie')]")
   private WebElement cookieClose;
 
+  public StartPage checkOpenPage() {
+    waitUntilElementToBeVisible(getHeader().getSberlogo());
+    return this;
+  }
+
   public StartPage closeCookieDialog() {
     waitUntilElementToBeVisible(cookieClose);
     waitUntilElementToBeClickable(cookieClose).click();
