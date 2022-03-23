@@ -45,7 +45,8 @@ public class BasePage {
   protected void fillInputField(WebElement element, String value) {
     scrollToElementJs(element);
     waitUntilElementToBeVisible(element);
-    element.sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+    element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+    element.sendKeys(value);
     try {
       Thread.sleep(1000);
     } catch (InterruptedException e) {
