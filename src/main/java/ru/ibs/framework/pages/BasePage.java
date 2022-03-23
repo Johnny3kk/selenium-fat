@@ -33,10 +33,6 @@ public class BasePage {
     return wait.until(ExpectedConditions.elementToBeClickable(element));
   }
 
-  protected WebElement waitUntilElementToBeVisible(By locator) {
-    return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-  }
-
   protected WebElement waitUntilElementToBeVisible(WebElement element) {
     return wait.until(ExpectedConditions.visibilityOf(element));
   }
@@ -47,16 +43,15 @@ public class BasePage {
   }
 
   protected void fillInputField(WebElement element, String value) {
-        scrollToElementJs(element);
+    scrollToElementJs(element);
     waitUntilElementToBeVisible(element);
-    waitUntilElementToBeClickable(element);
-    element.click();
-    element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
-    element.sendKeys(Keys.DELETE);
-    element.clear();
-    element.sendKeys(value);
-//    wait.until(ExpectedConditions.textToBePresentInElement(element, value));
-//    boolean checkFlag = wait.until(ExpectedConditions.attributeContains(element, "value", value));
-//    Assertions.assertTrue(checkFlag, "Поле было заполнено неверно.");
+    element.sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    boolean checkFlag = wait.until(ExpectedConditions.attributeContains(element, "value", value));
+    Assertions.assertTrue(checkFlag, "Поле было заполнено неверно.");
   }
 }

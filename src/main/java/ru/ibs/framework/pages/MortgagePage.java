@@ -1,14 +1,18 @@
 package ru.ibs.framework.pages;
 
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import ru.ibs.framework.managers.DriverManager;
 
 public class MortgagePage extends BasePage {
 
   @FindBy(xpath = "//div[contains(@class, 'lg-top_40')]//h1[contains(@class, 'header')]")
   private WebElement title;
+
+  @FindBy(xpath = "//h2[contains(text(), 'Рассчитайте')]")
+  private WebElement calcTitle;
 
   @FindBy(xpath = "//iframe[@id='iFrameResizer0']")
   private WebElement iframe;
@@ -24,19 +28,21 @@ public class MortgagePage extends BasePage {
 
   @FindBy(
       xpath =
-          "//span[@class='_1PGdMG1naHFzrroHZcN0Sd' and contains(text(), 'Страхование')]./../..//input")
+          "//span[@class='_1PGdMG1naHFzrroHZcN0Sd' and contains(text(), 'Страхование')]/../..//label/div")
   private WebElement insuranceCheck;
 
-  @FindBy(xpath = "//li[contains(@data-e2e-id, 'credit-sum')]//span/span")
+  @FindBy(
+      xpath =
+          "//div[contains(@data-test-id, 'main')]//li[contains(@data-e2e-id, 'credit-sum')]//span/span")
   private WebElement creditSum;
 
-  @FindBy(xpath = "//li[contains(@data-e2e-id, 'credit-rate')]//span/span")
+  @FindBy(xpath = "//div[contains(@data-test-id, 'main')]//li[contains(@data-e2e-id, 'credit-rate')]//span/span")
   private WebElement creditRate;
 
-  @FindBy(xpath = "//li[contains(@data-e2e-id, 'monthly-payment')]//span/span")
+  @FindBy(xpath = "//div[contains(@data-test-id, 'main')]//li[contains(@data-e2e-id, 'monthly-payment')]//span/span")
   private WebElement monthlyPayment;
 
-  @FindBy(xpath = "//div[contains(@data-e2e-id, 'income-required')]//span/span")
+  @FindBy(xpath = "//div[contains(@data-e2e-id, 'income-required')]//div[@class='_3FDuwMMlfn70Wl-s4FooMs']//span/span")
   private WebElement requiredIncome;
 
   public MortgagePage checkOpenPage() {
@@ -48,10 +54,10 @@ public class MortgagePage extends BasePage {
   }
 
   public MortgagePage fillField(String nameField, String value) {
-
     WebElement element = null;
     switch (nameField) {
       case "Стоимость недвижимости":
+        driverManager.getDriver().switchTo().frame(iframe);
         fillInputField(realtyCost, value);
         element = realtyCost;
         break;
@@ -70,43 +76,50 @@ public class MortgagePage extends BasePage {
                 + "' отсутствует на странице "
                 + "'Ипотека на вторичное жильё'");
     }
-//    wait.until(ExpectedConditions.attributeToBe(element, "value", value));
-//    Assertions.assertEquals(
-//        "Поле '" + nameField + "' было заполнено некорректно",
-//        value,
-//        element.getAttribute("value"));
     return this;
   }
 
   public MortgagePage disableInsuranceCheck() {
     waitUntilElementToBeClickable(insuranceCheck).click();
-    Assertions.assertEquals("false", insuranceCheck.getAttribute("aria-checked"));
+    Assertions.assertEquals(
+        "false", insuranceCheck.findElement(By.xpath(".//input")).getAttribute("aria-checked"));
+
     return this;
   }
 
   public MortgagePage assertCorrectData(String nameData, String value) {
-//    driverManager.getDriver().switchTo().frame("iFrameResizer0");
+
+
     switch (nameData) {
       case "Сумма кредита":
+        driverManager.getDriver().switchTo().defaultContent();
+        scrollToElementJs(calcTitle);
+        waitUntilElementToBeVisible(calcTitle);
+        driverManager.getDriver().switchTo().frame(iframe);
+        try {
+          Thread.sleep(2000);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
         Assertions.assertEquals(
-            creditSum.getText().trim().replaceAll("[^0-9]", ""), value, "Ошибка расчёта кредита.");
+            value, creditSum.getText().trim().replaceAll("[^0-9]", ""), "Ошибка расчёта кредита.");
         break;
       case "Ежемесячный платёж":
         Assertions.assertEquals(
-            monthlyPayment.getText().trim().replaceAll("[^0-9]", ""),
             value,
+            monthlyPayment.getText().trim().replaceAll("[^0-9]", ""),
             "Ошибка расчёта ежемесечного платежа.");
         break;
       case "Необходимый доход":
         Assertions.assertEquals(
-            requiredIncome.getText().trim().replaceAll("[^0-9]", ""),
             value,
+            requiredIncome.getText().trim().replaceAll("[^0-9]", ""),
             "Ошибка расчёта необходимого дохода.");
         break;
       case "Процентная ставка":
         Assertions.assertEquals(
-            creditRate.getText().trim().replaceAll("[^0-9]", ""),
             value,
+            creditRate.getText().trim().replaceAll("[^0-9]", ""),
             "Ошибка расчёта процентной ставки кредита.");
         break;
       default:

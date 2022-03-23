@@ -1,7 +1,10 @@
 package ru.ibs.framework.pages;
 
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import ru.ibs.framework.managers.DriverManager;
 
 public class StartPage extends BasePage {
 
@@ -10,6 +13,7 @@ public class StartPage extends BasePage {
 
   public StartPage checkOpenPage() {
     waitUntilElementToBeVisible(getHeader().getSberlogo());
+    waitUntilElementToBeClickable(getHeader().getSberlogo());
     return this;
   }
 

@@ -3,20 +3,16 @@ package ru.ibs.framework.steps;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.ru.И;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import ru.ibs.framework.managers.DriverManager;
 import ru.ibs.framework.managers.PageManager;
 
 public class MortgagePageStep {
 
-  private final DriverManager driverManager = DriverManager.getInstance();
   private final PageManager pageManager = PageManager.getInstance();
 
   @И("^Заполнить поля:$")
   public void fillFields(DataTable mapFieldsAndValue) {
-    driverManager
-        .getDriver()
-        .switchTo()
-        .frame(driverManager.getDriver().findElement(By.xpath("//iframe[@id='iFrameResizer0']")));
     mapFieldsAndValue
         .asMap(String.class, String.class)
         .forEach(
