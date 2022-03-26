@@ -1,30 +1,31 @@
-def mvn = "/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/3.6.3/bin/mvn"
+def mvn = "/var/lib/jenkins/tools/hudson.tasks.Maven_MavenInstallation/mvn/bin/mvn"
 
-node {
-    stage('Checkout SCM') {
-        checkout(
-                [$class: 'GitSCM',
-                 branches: [[name: "refs/heads/${BRANCH}"]],
-                 userRemoteConfigs: [[url: 'https://github.com/AntonBalakirev/cucumber_example.git']]]
-        )
+pipeline {
+    agent any
+    parameters {
+        string(name: 'TAG', defaultValue: '@firstFail', description: 'тег для запуска')
     }
-    stage('Build') {
-        sh "${mvn} clean compile"
-    }
-    stage('Run Tests') {
-        try {
-            sh "${mvn} test -Dcucumber.filter.tags=\"${TAG}\" -Dtype.browser=\"${BROWSER}\""
+    stages {
+        stage('Build') {
+            steps {
+                sh "${mvn} clean compile"
+            }
         }
-        catch (Exception e) {
-            echo "Test run was broken"
-            throw e
+        stage('Run Tests') {
+            steps {
+                sh "${mvn} test -Dcucumber.filter.tags=\"${params.TAG}\" -Dtype.browser=\"${params.BROWSER}\""
+            }
         }
-        finally {
-            stage('Allure Report Generation') {
+        stage('Allure Report Generation') {
+            steps {
                 allure includeProperties: false,
                         jdk: '',
                         results: [[path: 'target/reports/allure-results']]
             }
+        }
+    }
+    post {
+        always {
             cleanWs notFailBuild: true
         }
     }
